@@ -3,19 +3,20 @@ import { useState } from 'react'
 
 export const UserContext = React.createContext()
 
+
 export const UserContextProvider = (props) => {
     const [userState, setUserState] = useState({
-        isUserSignIn: false,
-        userData: []
+        email: "",
+        isUserSignIn: true    // change this during testing
     })
 
     const setState = () =>    {
         let localData = JSON.parse(localStorage.getItem('user'))
-        console.log("sdfghjhtfdfgh")
+        
         if(localData != null) {
             const getResponse = async () => {
                 await fetch(
-                    "http://localhost:8080/",
+                    "http://localhost:8080/api/userstatus",
                     {
                         method: "GET",
                         headers: {
@@ -26,16 +27,18 @@ export const UserContextProvider = (props) => {
                 ).then(res => res.json())
                     .then(data => {
                         
-                        if (data.status === "TokenExpiredError") {
+                        if (data.message === "TokenExpiredError") {
                             setUserState((userdata) => {
+                                userdata.email = ""
                                 userdata.isUserSignIn = false
-                                userdata.userData = {}
+    
                                 return ({...userdata})
                             })
                         } else {
                             setUserState((userdata) => {
+                                userdata.email = data.email
                                 userdata.isUserSignIn = true
-                                userdata.userData = data.todoList
+    
                                 return ({...userdata})
                             })
                         }
@@ -44,8 +47,9 @@ export const UserContextProvider = (props) => {
             getResponse()
         } else {
             setUserState( (userdata) => {
+                userdata.email = ""
                 userdata.isUserSignIn = false
-                userdata.userData= {}
+
                 return ({...userdata})
             })
         }
@@ -57,10 +61,11 @@ export const UserContextProvider = (props) => {
 
     const signIn = (username, password) => {
         const getResponse = async () => {
+            // Request
             await fetch(
-                "http://localhost:8080/login",
+                "http://localhost:8080/api/login",
                 {
-                    method: "POST",
+                    method: "GET",
                     body: JSON.stringify({
                         email: username,
                         password: password
@@ -71,21 +76,27 @@ export const UserContextProvider = (props) => {
                 }
             ).then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
-                    if(data.status === "UserDoesntExits"){
+
+                    // if user doesnt exit
+                    if(data.message === "UserDoesntExits"){
                         setUserState( (userdata) => {
+                            userdata.email = ""
                             userdata.isUserSignIn = false
-                            userdata.userData= {}
+
                             return ({...userdata})
                         })
                     } else {
+
+                        // storing data to local storage
                         localStorage.setItem('user', JSON.stringify({
                             email: data.email,
                             token: data.token
                         }))
+
                         setUserState( (userdata) => {
+                            userdata.email = data.username
                             userdata.isUserSignIn = true
-                            userdata.userData= {}
+
                             return ({...userdata})
                         })
                     }
@@ -99,9 +110,11 @@ export const UserContextProvider = (props) => {
             email: "",
             token: ""
         }))
+
         setUserState( (userdata) => {
             userdata.isUserSignIn = false
-            userdata.userData= {}
+            userdata.email= ""
+
             return ({...userdata})
         })
     }
