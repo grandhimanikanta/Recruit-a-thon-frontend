@@ -41,6 +41,8 @@ export const RecuritmentModal = () => {
 
     useEffect(() => {
         setState()
+
+        // eslint-disable-next-line
     }, [])
 
     return(

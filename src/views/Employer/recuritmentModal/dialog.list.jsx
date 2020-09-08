@@ -29,7 +29,7 @@ export const DialogBox = (props) => {
         setRoundNames( (round) => {
             let newArray = []
 
-            round.map( (ele, index) => {
+            round.forEach( (ele, index) => {
                 if (elementIndex === index){
                     newArray.push(element)
                 } else {

@@ -12,7 +12,7 @@ import { Typography } from '@material-ui/core';
 import {RoundName} from "./Round"
 
 export const NewModal = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isAddRoundOpen, setAddRoundOpen] = useState(false)
   const [newRoundText, setNewRoundText] = useState("")
   const [newModalRounds, setNewModalRounds] = useState([])
@@ -30,7 +30,7 @@ export const NewModal = () => {
         setNewModalRounds( (round) => {
             let newArray = []
 
-            round.map( (ele, index) => {
+            round.forEach( (ele, index) => {
                 if (elementIndex === index){
                     newArray.push(element)
                 } else {

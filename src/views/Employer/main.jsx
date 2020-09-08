@@ -82,7 +82,7 @@ export const Employer = () => {
         <Tab label="Ongoing Process" {...a11yProps(2)} />
       </Tabs>
 
-      <TabPanel value={value} index={0} className={classes.rightTab}>
+      <TabPanel value={value} index={2} className={classes.rightTab}>
         <ModalContextProvider>
           <RecuritmentModal />
         </ModalContextProvider>
@@ -92,9 +92,14 @@ export const Employer = () => {
         <ListCandidate />
       </TabPanel>
       
-      <TabPanel value={value} index={2} className={classes.rightTab}>
+      <TabPanel value={value} index={0} className={classes.rightTab}>
         <ProcessManagement />
       </TabPanel>
+
     </div>
   );
 }
+
+// RecuritmentModal
+// ListCandidate
+// ProcessManagement
