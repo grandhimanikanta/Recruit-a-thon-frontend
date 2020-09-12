@@ -12,22 +12,26 @@ export const UserContextProvider = (props) => {
 
     const setState = () =>    {
         let localData = JSON.parse(localStorage.getItem('user'))
-        
+        console.log("Local", localData)
         if(localData != null) {
             const getResponse = async () => {
                 await fetch(
-                    "http://localhost:8080/api/userstatus",
+                    "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/users/verify_login/",
                     {
-                        method: "GET",
-                        headers: {
+                        method: "POST",
+                        body: JSON.stringify({
                             email: localData.email,
-                            authorization: localData.token
+                            token: localData.token,
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
                         }
                     }
                 ).then(res => res.json())
                     .then(data => {
-                        
-                        if (data.message === "TokenExpiredError") {
+                        console.log(data)
+
+                        if (data.message === "No user found") {
                             setUserState((userdata) => {
                                 userdata.email = ""
                                 userdata.isUserSignIn = false
@@ -38,7 +42,6 @@ export const UserContextProvider = (props) => {
                             setUserState((userdata) => {
                                 userdata.email = data.email
                                 userdata.isUserSignIn = true
-    
                                 return ({...userdata})
                             })
                         }
@@ -57,26 +60,27 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         setState()
+        console.log("user context")
     }, [])
 
     const signIn = (username, password) => {
         const getResponse = async () => {
             // Request
+            console.log(username, password)
             await fetch(
-                "http://localhost:8080/api/login",
+                "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/users/login/",
                 {
-                    method: "GET",
+                    method: "POST",
                     body: JSON.stringify({
-                        email: username,
-                        password: password
+                        "username" : username,
+                        "password" : password
                     }),
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type" : "application/json"
                     }
                 }
             ).then((res) => res.json())
                 .then((data) => {
-
                     // if user doesnt exit
                     if(data.message === "UserDoesntExits"){
                         setUserState( (userdata) => {
@@ -89,8 +93,8 @@ export const UserContextProvider = (props) => {
 
                         // storing data to local storage
                         localStorage.setItem('user', JSON.stringify({
-                            email: data.email,
-                            token: data.token
+                            email: data.username,
+                            token: data.Token.auth_token
                         }))
 
                         setUserState( (userdata) => {

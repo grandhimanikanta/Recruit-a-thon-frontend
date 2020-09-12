@@ -1,11 +1,19 @@
 import React from 'react'
-import { Grid, TextField, Button, makeStyles } from "@material-ui/core"
+import { Grid, TextField, Button, makeStyles, Paper } from "@material-ui/core"
 import { useContext } from 'react'
 import { UserContext } from '../contexts/user.status.context'
 import { useState } from 'react'
+import Typography from "@material-ui/core/Typography"
 
 
 const useStyle = makeStyles({
+    holder: {
+        marginTop: "8%",
+        margin: "auto",
+        width: "28%", 
+        padding: "32px",
+        borderRadius: "16px"
+    },
     container: {
         textAlign: "center"
     },
@@ -30,34 +38,51 @@ export const Login = () => {
     const [password, setPassword] = useState("")
 
     return(
-        <Grid container className={classes.container}>
-            <Grid item>
+        <Paper 
+            elevation={2}
+            className={classes.holder}
+        >
+            <Grid container className={classes.container}>
+            <Grid item xs={12}>
+                <Typography style={{fontSize: "36px", paddingBottom: "30px"}}> Recruit-a-thon </Typography>
+            </Grid>
+            <Grid item xs={12}>
                 <form>
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        label="Username"
-                        variant="outlined"
-                        onChange={(val) => setUsername(val.target.value)}
-                    />
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        onChange={(val) => setPassword(val.target.value)}
-                    />
-                    <Button
-                        variant="outlined"
-                        size="large"
-                        className={classes.loginButton}
-                        onClick={() => user.signIn(username, password)}
-                    >
-                        Login
-                    </Button>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <TextField
+                                style={{width: "100%"}}
+                                margin="dense"
+                                label="Username"
+                                variant="outlined"
+                                onChange={(val) => setUsername(val.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                style={{width: "100%"}}
+                                margin="dense"
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                onChange={(val) => setPassword(val.target.value)}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            style={{width: "50%"}}
+                            variant="outlined"
+                            size="medium"
+                            className={classes.loginButton}
+                            onClick={() => user.signIn(username, password)}
+                        >
+                            Login
+                        </Button>
+                    </Grid>
                 </form>
             </Grid>
         </Grid>
-    )
+        </Paper>
+        )
 }

@@ -52,10 +52,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+    borderRight: `2px solid ${theme.palette.divider}`,
+    marginTop: "12%"
   },
   rightTab: {
-    width: "89%"
+    width: "80%",
+  },
+  singleTab: {
+    padding: "16px",
+    marginTop: "24px"
   }
 }));
 
@@ -77,12 +82,12 @@ export const Employer = () => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Recuritment Modals" {...a11yProps(0)} />
-        <Tab label="List of Candidates" {...a11yProps(1)} />
-        <Tab label="Ongoing Process" {...a11yProps(2)} />
+        <Tab label="Recuritment Modals" {...a11yProps(0)} className={classes.singleTab} />
+        <Tab label="List of Candidates" {...a11yProps(1)} className={classes.singleTab}/>
+        <Tab label="Ongoing Process" {...a11yProps(2)} className={classes.singleTab}/>
       </Tabs>
 
-      <TabPanel value={value} index={2} className={classes.rightTab}>
+      <TabPanel value={value} index={0} className={classes.rightTab}>
         <ModalContextProvider>
           <RecuritmentModal />
         </ModalContextProvider>
@@ -92,7 +97,7 @@ export const Employer = () => {
         <ListCandidate />
       </TabPanel>
       
-      <TabPanel value={value} index={0} className={classes.rightTab}>
+      <TabPanel value={value} index={2} className={classes.rightTab}>
         <ProcessManagement />
       </TabPanel>
 
