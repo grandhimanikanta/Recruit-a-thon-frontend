@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { UserContext } from '../contexts/user.status.context'
 import { useState } from 'react'
 import Typography from "@material-ui/core/Typography"
-
+import logo from "./logo.svg"
 
 const useStyle = makeStyles({
     holder: {
@@ -43,6 +43,9 @@ export const Login = () => {
             className={classes.holder}
         >
             <Grid container className={classes.container}>
+            <Grid item xs={12}>
+                    <img src={logo} alt="Logo"/>
+            </Grid>
             <Grid item xs={12}>
                 <Typography style={{fontSize: "36px", paddingBottom: "30px"}}> Recruit-a-thon </Typography>
             </Grid>
