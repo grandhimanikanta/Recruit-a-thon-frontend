@@ -40,34 +40,36 @@ export const DialogBox = (props) => {
     const handleClose = () => { 
         let localData = JSON.parse(localStorage.getItem('user'))
 
-        const getResponse = async () => {
-            await fetch(
-                "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/editrole/",
-                {
-                    method: "POST",
-                    headers: {
-                        email: localData.email,
-                        token: localData.token,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "role_id": props.data.role_id,
-                        "role_name": props.data.role_name,
-                        "rounds": roundNames
-                    })
-                }
-            ).then( res => res.json())
-            .then((data) => {
-                if (data.message === "Data Updated"){
-                    setOpen(false) 
-                    props.modalFunction()
-                } else {
-                    setIsError(true)
-                    props.modalFunction()
-                }
-            })
+        if(localData != null){
+            const getResponse = async () => {
+                await fetch(
+                    "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/editrole/",
+                    {
+                        method: "POST",
+                        headers: {
+                            email: localData.email,
+                            token: localData.token,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "role_id": props.data.role_id,
+                            "role_name": props.data.role_name,
+                            "rounds": roundNames
+                        })
+                    }
+                ).then( res => res.json())
+                .then((data) => {
+                    if (data.message === "Data Updated"){
+                        setOpen(false) 
+                        props.modalFunction()
+                    } else {
+                        setIsError(true)
+                        props.modalFunction()
+                    }
+                })
+            }
+            getResponse()
         }
-        getResponse()
     }
 
     const changeName = (elementIndex, element) => {

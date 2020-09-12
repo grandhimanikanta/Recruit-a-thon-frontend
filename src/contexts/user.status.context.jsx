@@ -7,7 +7,7 @@ export const UserContext = React.createContext()
 export const UserContextProvider = (props) => {
     const [userState, setUserState] = useState({
         email: "",
-        isUserSignIn: true    // change this during testing
+        isUserSignIn: false    // change this during testing
     })
 
     const setState = () =>    {
@@ -29,7 +29,7 @@ export const UserContextProvider = (props) => {
                     }
                 ).then(res => res.json())
                     .then(data => {
-                        console.log(data)
+                        console.log("verify data", data)
 
                         if (data.message === "No user found") {
                             setUserState((userdata) => {

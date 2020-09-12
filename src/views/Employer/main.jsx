@@ -82,7 +82,7 @@ export const Employer = () => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Recuritment Modals" {...a11yProps(0)} className={classes.singleTab} />
+        <Tab label="Recruitment Modals" {...a11yProps(0)} className={classes.singleTab} />
         <Tab label="List of Candidates" {...a11yProps(1)} className={classes.singleTab}/>
         <Tab label="Ongoing Process" {...a11yProps(2)} className={classes.singleTab}/>
       </Tabs>

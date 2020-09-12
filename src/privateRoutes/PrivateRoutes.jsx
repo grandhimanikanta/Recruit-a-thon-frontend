@@ -6,7 +6,7 @@ import { UserContext } from "../contexts/user.status.context"
 
 export const ProtectedRoute = ({ component: Component, ...rest}) => {
     const { user } = useContext(UserContext)
-
+    console.log(user)
     if (rest.path === "/"){
         return (
             <Route {...rest} render={props =>

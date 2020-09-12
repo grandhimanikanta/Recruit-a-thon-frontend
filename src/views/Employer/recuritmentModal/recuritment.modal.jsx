@@ -20,25 +20,27 @@ export const RecuritmentModal = () => {
     const setState = () => {
     let localData = JSON.parse(localStorage.getItem('user'))
 
-        const getResponse = async () => {
-            await fetch(
-                // "https://api.npoint.io/dd280a79f9e3c174b28f",
-                "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/roleinfo/",
-                {
-                    method: "GET",
-                    headers: {
-                        email: localData.email,
-                        token: localData.token,
-                        "Content-Type": "application/json"
+        if(localData != null){
+            const getResponse = async () => {
+                await fetch(
+                    // "https://api.npoint.io/dd280a79f9e3c174b28f",
+                    "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/roleinfo/",
+                    {
+                        method: "GET",
+                        headers: {
+                            email: localData.email,
+                            token: localData.token,
+                            "Content-Type": "application/json"
+                        }
                     }
+                ).then( res => res.json())
+                    .then( (data) => {                    
+                        modalStatus.setModals(data)
+                    })
                 }
-            ).then( res => res.json())
-                .then( (data) => {                    
-                    modalStatus.setModals(data)
-                })
-            }
-            
-        getResponse()
+                
+            getResponse()
+        }
     }
 
     useEffect(() => {
@@ -51,7 +53,7 @@ export const RecuritmentModal = () => {
         <Grid container>
             <Grid container className={classes.row1}>
                 <Grid item xs={9} style={{fontSize: "20px"}}>
-                    List of Available Recuritment Modals
+                    List of Available Recruitment Modals
                 </Grid>
                 <Grid item xs={3}>
                     <NewModal modalFunction={setState} />

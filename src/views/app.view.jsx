@@ -11,41 +11,40 @@ export const AppView = () => {
 
     const setState = () => {
         let localData = JSON.parse(localStorage.getItem('user'))
+        console.log("APp.view", localData)
+        if(localData != null){
+            const getResponse = async () => {
+                await fetch(
+                    "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/isrecruiter/",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body:JSON.stringify({
+                            username: localData.email
+                        })
+                    }
+                ).then( res => res.json())
+                    .then( (data) => {
+                        console.log(data)
+                        setUserData( (userdata) => {
+                            userdata.isRecruiter = data.isrecruiter
+                            // userdata.data = data.isrecruiter
 
-        const getResponse = async () => {
-            await fetch(
-                "https://cors-anywhere.herokuapp.com/https://recrtuit-a-thon.herokuapp.com/isrecruiter/",
-                {
-                    method: "POST",
-                    headers: {
-                        email: localData.email,
-                        authorization: localData.token,
-                        "Content-Type": "application/json"
-                    },
-                    body:JSON.stringify({
-                        username: localData.email
+                            return({...userdata})
+                        })
                     })
-                }
-            ).then( res => res.json())
-                .then( (data) => {
-                    console.log(data)
-                    setUserData( (userdata) => {
-                        userdata.isRecruiter = data.isrecruiter
-                        // userdata.data = data.isrecruiter
+            }
 
-                        return({...userdata})
-                    })
-                })
+            getResponse()
         }
-
-        getResponse()
     }
 
     useEffect(() => {
-        setState()
-        console.log("app.view")
+        // setState()
     }, [])
-
+    
     return(
         <div>
             {
